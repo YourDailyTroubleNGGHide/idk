@@ -412,7 +412,7 @@ task.spawn(function()
 			for _, machinefolder : Folder in pairs(Maps:GetDescendants()) do
 				if machinefolder:IsA("Folder") and machinefolder.Name == "Machines" then
 					for _, machine in pairs(machinefolder:GetChildren()) do
-						if machine.Name:find("Chest") and machine:GetAttribute("chestId") then
+						if machine.Name:lower():find("chest") and machine:GetAttribute("chestId") then
 							RewardService:claimChest(machine:GetAttribute("chestId"))
 						end
 					end
