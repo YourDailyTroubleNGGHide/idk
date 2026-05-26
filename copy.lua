@@ -81,55 +81,55 @@ local Settings = Window:AddTab({ Title = "Settings", Icon = "settings"})
 ----------
 
 -- Main Locals --
-	-- Services
-	local Players = game:GetService("Players")
-	local ReplicatedStorage = game:GetService("ReplicatedStorage")
-	local SoundService = game:GetService("SoundService")
-	local UserInputService = game:GetService("UserInputService")
-	local Workspace = game:GetService("Workspace")
+-- Services
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local SoundService = game:GetService("SoundService")
+local UserInputService = game:GetService("UserInputService")
+local Workspace = game:GetService("Workspace")
 
-	-- Local Player
-	local plr = Players.LocalPlayer
-	local char = plr.Character or plr.CharacterAdded:Wait()
-	local hrp = char:FindFirstChild("HumanoidRootPart")
-	local hum = char:FindFirstChild("Humanoid")
+-- Local Player
+local plr = Players.LocalPlayer
+local char = plr.Character or plr.CharacterAdded:Wait()
+local hrp = char:FindFirstChild("HumanoidRootPart")
+local hum = char:FindFirstChild("Humanoid")
 
 -- Inside Game Locals
-	-- Workspace
-	local Debris = Workspace:WaitForChild("Debris") -- Folder Debris in Workspace
-	local Orbs = Debris:WaitForChild("Orbs") -- Child of Folder Debris
-	local Game = Workspace:WaitForChild("Game") -- Folder Game in Workspace
-	local Maps = Game:WaitForChild("Maps") -- Folder Maps in Folder Game
-	-- Knit
-	local Knit = require(ReplicatedStorage:WaitForChild("Packages"):WaitForChild("Knit"))
-	-- Controllers
-	local UIController = require(plr.PlayerScripts.Client.Controllers.UIController)
-	local Confetti = require(plr.PlayerScripts.Client.Controllers.UIController.FX.Confetti)
-	local DataController = require(plr.PlayerScripts.Client.Controllers.DataController)
-	local EggController = require(plr.PlayerScripts.Client.Controllers.EggController)
-	local FarmController = require(plr.PlayerScripts.Client.Controllers.FarmController)
-	local ChestController = require(plr.PlayerScripts.Client.Controllers.ChestController)
-	-- Services
-	local ClickService = Knit.GetService("ClickService")
-	local RebirthService = Knit.GetService("RebirthService")
-	local EggService = Knit.GetService("EggService")
-	local FarmService = Knit.GetService("FarmService")
-	local UpgradeService = Knit.GetService("UpgradeService")
-	local RewardService = Knit.GetService("RewardService")
+-- Workspace
+local Debris = Workspace:WaitForChild("Debris") -- Folder Debris in Workspace
+local Orbs = Debris:WaitForChild("Orbs") -- Child of Folder Debris
+local Game = Workspace:WaitForChild("Game") -- Folder Game in Workspace
+local Maps = Game:WaitForChild("Maps") -- Folder Maps in Folder Game
+-- Knit
+local Knit = require(ReplicatedStorage:WaitForChild("Packages"):WaitForChild("Knit"))
+-- Controllers
+local UIController = require(plr.PlayerScripts.Client.Controllers.UIController)
+local Confetti = require(plr.PlayerScripts.Client.Controllers.UIController.FX.Confetti)
+local DataController = require(plr.PlayerScripts.Client.Controllers.DataController)
+local EggController = require(plr.PlayerScripts.Client.Controllers.EggController)
+local FarmController = require(plr.PlayerScripts.Client.Controllers.FarmController)
+local ChestController = require(plr.PlayerScripts.Client.Controllers.ChestController)
+-- Services
+local ClickService = Knit.GetService("ClickService")
+local RebirthService = Knit.GetService("RebirthService")
+local EggService = Knit.GetService("EggService")
+local FarmService = Knit.GetService("FarmService")
+local UpgradeService = Knit.GetService("UpgradeService")
+local RewardService = Knit.GetService("RewardService")
 -----------------
 
 local __RebirthsValues = {
 	__Normal = {
-	"1", "5", "10", "25", "50", "100", 
-	"200", "500", "1K", "2.5K", "5K", "10K", "15K", 
-	"25K", "50K", "100K", "200K", "500K", "1M", "2.5M", 
-	"5M", "10M", "25M", "50M", "100M", "250M", "500M", "1B", 
-	"2.5B", "5B", "10B", "25B", "50B", "150B", "500B", "1T", 
-	"5T", "25T", "100T", "250T", "500T", "1Qd", "2.5Qd", "10Qd",
-	"25Qd", "100Qd", "250Qd", "500Qd", "1Qn", "5Qn", "25Qn", 
-	"100Qn", "250Qn", "1Sx", "5Sx", "25Sx", "100Sx", "500Sx",
-	"1Sp", "5Sp", "25Sp", "100Sp", "500Sp", "2.5O", "10O", "50O",
-	"250O", "1N", "10N", "50N",
+		"1", "5", "10", "25", "50", "100", 
+		"200", "500", "1K", "2.5K", "5K", "10K", "15K", 
+		"25K", "50K", "100K", "200K", "500K", "1M", "2.5M", 
+		"5M", "10M", "25M", "50M", "100M", "250M", "500M", "1B", 
+		"2.5B", "5B", "10B", "25B", "50B", "150B", "500B", "1T", 
+		"5T", "25T", "100T", "250T", "500T", "1Qd", "2.5Qd", "10Qd",
+		"25Qd", "100Qd", "250Qd", "500Qd", "1Qn", "5Qn", "25Qn", 
+		"100Qn", "250Qn", "1Sx", "5Sx", "25Sx", "100Sx", "500Sx",
+		"1Sp", "5Sp", "25Sp", "100Sp", "500Sp", "2.5O", "10O", "50O",
+		"250O", "1N", "10N", "50N",
 	}
 }
 
@@ -285,7 +285,7 @@ Items:AddToggle("ACMChests", {Title = "Auto Collect Mini Chests (Auto Collect Dr
 
 -- Events --
 
-Event:AddSection({ Name = "On-going Event Now: ⚔️Magic Tower⚔️" })
+Event:AddSection("On-going Event Now: ⚔️Magic Tower⚔️")
 local MagicTowerService = Knit.GetService("MagicTowerService")
 
 local function DamageMob(MobId)
@@ -375,7 +375,7 @@ task.spawn(function()
 				print("["..v.Name.."]: NoobZ är inne i ditt spel. Jag är så ledsen, Roksek.")
 			end
 		end
-		
+
 		DataController.data.passes.freeAutoClicker = Options.GAClicker.Value
 		DataController.data.passes.autoClicker = Options.GAClicker.Value
 		DataController.data.ancientShop.autoChestCollect = Options.ACClaim.Value
@@ -388,9 +388,9 @@ task.spawn(function()
 		DataController.data.passes.megaFragmentsLuck = Options.GMFLuck.Value
 		DataController.data.passes.megaLuck = Options.GMLuck.Value
 		DataController.data.passes.ultraLuck = Options.GULuck.Value
-		
+
 		EggController._cachedIsInGroup = Options.AHatch.Value
-		
+
 		if Options.ACFarm.Value then
 			local FarmMap = Maps:WaitForChild("Farm")
 			if FarmMap then
@@ -407,7 +407,7 @@ task.spawn(function()
 				end
 			end
 		end
-		
+
 		if Options.ACChests.Value then
 			for _, machinefolder : Folder in pairs(Maps:GetDescendants()) do
 				if machinefolder:IsA("Folder") and machinefolder.Name == "Machines" then
@@ -419,7 +419,7 @@ task.spawn(function()
 				end
 			end
 		end
-		
+
 		if Options.ACMChests.Value and fireproximityprompt then
 			for _, minichestfolder : Folder in pairs(Maps:GetDescendants()) do
 				if minichestfolder:IsA("Folder") and minichestfolder.Name == "MiniChests" then
@@ -437,7 +437,7 @@ end)
 task.spawn(function()
 	while task.wait(.1) do
 		local myHrp = GetHRP()
-		
+
 		if Options.AGStars.Value and firetouchinsterest and myHrp then
 			for _, v in pairs(Debris:GetChildren()) do
 				if v:IsA("Model") and v.Name == "FallingStar" then
@@ -456,11 +456,11 @@ task.spawn(function()
 				end
 			end
 		end
-		
+
 		if Options.AHubClicker.Value then Click() end
-		
+
 		if Options.AHubRebirth.Value then Rebirth(___AutoRebirthValue) end
-		
+
 		if Options.ADropsCollect.Value and myHrp then
 			for _, v in pairs(Orbs:GetChildren()) do
 				if v:IsA("BasePart") and v:GetAttribute("canCollect") then
