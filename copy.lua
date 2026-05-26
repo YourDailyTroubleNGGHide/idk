@@ -394,9 +394,9 @@ task.spawn(function()
 		if Options.ACFarm.Value then
 			local FarmMap = Maps:WaitForChild("Farm")
 			if FarmMap then
-				local Farm = FarmMap:WaitForChild("Farm")
-				if Farm then
-					for i, v in pairs(Farm:GetChildren()) do
+				local Farms = FarmMap:WaitForChild("Farms")
+				if Farms then
+					for i, v in pairs(Farms:GetChildren()) do
 						if v:IsA("Model") and v:GetAttribute("farmId") then
 							local timeuntilcancollect = FarmController:getTimeLeft(v:GetAttribute("farmId"))
 							if timeuntilcancollect <= 0 then
