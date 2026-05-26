@@ -246,7 +246,7 @@ Main:AddToggle("ATutorial", {Title = "Auto Tutorial / Skip Tutorial", Default = 
 
 -- Gamepasses --
 
-Gamepasses:AddSection("Gamepasses (does NOT save to real Data when leaves the game)")
+Gamepasses:AddSection("Gamepasses (does NOT save to real Data)")
 
 Gamepasses:AddToggle("ACClaim", {Title = "Auto Claim Chests Gamepass", Default = false })
 Gamepasses:AddToggle("GAClicker", {Title = "Auto Clicker Gamepass", Default = false })
@@ -277,8 +277,9 @@ Items:AddToggle("AOSupply", {Title = "Auto Open Supply Drops", Default = false }
 Items:AddSection("Fruit Farm")
 Items:AddToggle("ACFarm", {Title = "Auto Collect Fruit Farm", Default = true })
 
-Items:AddSection("Chests & Mini Chests")
-Items:AddToggle("ACChests", {Title = "Auto Collect Chests (These you already own)", Default = true })
+--Items:AddSection("Chests & Mini Chests")
+--Items:AddToggle("ACChests", {Title = "Auto Collect Chests (These you already own)", Default = true })
+Items:AddSection("Mini Chests")
 Items:AddToggle("ACMChests", {Title = "Auto Collect Mini Chests (Auto Collect Drops recommended)", Default = true })
 
 --------------
@@ -407,7 +408,8 @@ task.spawn(function()
 				end
 			end
 		end
-
+		
+--[[
 		if Options.ACChests.Value then
 			for _, machinefolder : Folder in pairs(Maps:GetDescendants()) do
 				if machinefolder:IsA("Folder") and machinefolder.Name == "Machines" then
@@ -419,6 +421,7 @@ task.spawn(function()
 				end
 			end
 		end
+]]
 
 		if Options.ACMChests.Value and fireproximityprompt then
 			for _, minichestfolder : Folder in pairs(Maps:GetDescendants()) do
