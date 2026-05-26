@@ -425,7 +425,7 @@ task.spawn(function()
 				if minichestfolder:IsA("Folder") and minichestfolder.Name == "MiniChests" then
 					for _, minichest in pairs(minichestfolder:GetChildren()) do
 						if minichest:IsA("Model") and (minichest:GetAttribute("miniChestId") and minichest:GetAttribute("miniChestName")) then
-							fireproximityprompt(minichest:FindFirstChild("Touch"):FindFirstChildWhichIsA("ProximityPrompt"))
+							fireproximityprompt(minichest:FindFirstChild("Touch"):FindFirstChild("ProximityPrompt"))
 						end
 					end
 				end
