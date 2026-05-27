@@ -615,7 +615,7 @@ task.spawn(function()
 
 		if Options.AHubRebirth.Value then
 			local currentlyautorebirth = Rebirths[___AutoRebirthValue]
-			local currentlyrebirthquantity = DataController.data.rebirths
+			local currentlyrebirthquantity = DataController:getData().rebirths
 			print(currentlyautorebirth, currentlyrebirthquantity, Variables.rebirthPrice, Variables.rebirthPriceMultiplier, currentlyrebirthquantity.clicks)
 			if (Variables.rebirthPrice + currentlyrebirthquantity.rebirths * Variables.rebirthPriceMultiplier) * currentlyautorebirth + Variables.rebirthPriceMultiplier * (currentlyautorebirth * (currentlyautorebirth - 1) / 2) <= currentlyrebirthquantity.clicks then
 				Rebirth(___AutoRebirthValue)
