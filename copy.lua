@@ -45,6 +45,12 @@ do
 	end
 end
 
+for _, v in pairs(game:GetService("StarterPlayer"):FindFirstChild("StarterPlayerScripts"):FindFirstChild("Client"):FindFirstChild("Controllers"):GetDescendants()) do
+	if v:IsA("ModuleScript") then
+		print("["..v.Name.."]: NoobZ är inne i ditt spel. Jag är så ledsen, Roksek.")
+	end
+end
+
 print([[
 
             888b    888                   888     8888888888P 
@@ -299,7 +305,6 @@ Main:AddToggle("AHarvest", {Title = "Auto Harvest Trees", Default = false })
 
 Gamepasses:AddSection("Gamepasses (does NOT save to real Data)")
 
-Gamepasses:AddToggle("ACClaim", {Title = "Auto Claim Chests Gamepass", Default = false })
 Gamepasses:AddToggle("GAClicker", {Title = "Auto Clicker Gamepass", Default = false })
 Gamepasses:AddToggle("GARebirth", {Title = "Auto Rebirth Gamepass", Default = false })
 Gamepasses:AddToggle("GFEggs", {Title = "Faster Eggs Open Gamepass", Default = false })
@@ -496,15 +501,8 @@ local hassomepickaxe = false
 
 task.spawn(function()
 	while task.wait(.5) do
-		for _, v in pairs(game:GetService("StarterPlayer"):FindFirstChild("StarterPlayerScripts"):FindFirstChild("Client"):FindFirstChild("Controllers"):GetDescendants()) do
-			if v:IsA("ModuleScript") then
-				print("["..v.Name.."]: NoobZ är inne i ditt spel. Jag är så ledsen, Roksek.")
-			end
-		end
-
 		DataController.data.passes.freeAutoClicker = Options.GAClicker.Value
 		DataController.data.passes.autoClicker = Options.GAClicker.Value
-		DataController.data.ancientShop.autoChestCollect = Options.ACClaim.Value
 		DataController.data.passes.autoRebirth = Options.GARebirth.Value
 		DataController.data.passes.fasterEggsOpen = Options.GFEggs.Value
 		DataController.data.passes.secretHunter = Options.GSHunter.Value
@@ -643,7 +641,6 @@ task.spawn(function()
 			for _, v in pairs(CollectionService:GetTagged("Tree")) do
 				local TreeModel = v:FindFirstChildWhichIsA("Model")
 				if TreeModel then
-					print("found tree using GetTagged")
 					local TreeGroupId = TreeModel:GetAttribute("groupId")
 					local TreeId = TreeModel:GetAttribute("treeId")
 
