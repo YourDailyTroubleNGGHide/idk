@@ -117,6 +117,11 @@ local EggService = Knit.GetService("EggService")
 local FarmService = Knit.GetService("FarmService")
 local UpgradeService = Knit.GetService("UpgradeService")
 local RewardService = Knit.GetService("RewardService")
+local TreeService = Knit.GetService("TreeService")
+-- Modules
+local Variables = require(ReplicatedStorage:WaitForChild("Shared"):FindFirstChild("Variables"))
+local Rebirths = require(ReplicatedStorage:WaitForChild("Shared"):FindFirstChild("Rebirths"))
+local Util = require(ReplicatedStorage:WaitForChild("Shared"):FindFirstChild("Util"))
 -----------------
 
 local __RebirthsValues = {
@@ -243,6 +248,50 @@ end)
 Main:AddToggle("AHubRebirth", {Title = "Auto Rebirth [Hub Auto Rebirth]", Default = false })
 Main:AddToggle("ATutorial", {Title = "Auto Tutorial / Skip Tutorial", Default = false })
 
+Main:AddSection("Tree Harvest")
+
+local ToHarvest = {"Default Tree"}
+
+local TreeList = {
+	["Default Tree"] = { ["groupId"] = "spawn" },
+	["Cactus Tree"] = { ["groupId"] = "desert" },
+	["Nuclear Tree"] = { ["groupId"] = "nuclear" },
+	["Atlantis Tree"] = { ["groupId"] = "atlantis" },
+	["Kingdom Tree"] = { ["groupId"] = "kingdom" },
+	["Cave Tree"] = { ["groupId"] = "cave" },
+	["Volcano Tree"] = { ["groupId"] = "volcano" },
+	["Heaven Tree"] = { ["groupId"] = "heaven" },
+	["Circus Tree"] = { ["groupId"] = "circus" },
+	["Jungle Tree"] = { ["groupId"] = "jungle" },
+	["Steampunk Tree"] = { ["groupId"] = "steampunk" },
+	["Sakura Tree"] = { ["groupId"] = "sakura" }
+}
+
+local TreeNames = {}
+for name, _ in pairs(TreeList) do
+	table.insert(TreeNames, name)
+end
+
+local Main_TreeHarvestPick = Main:AddDropdown("MultiDropdown", {
+	Title = "Select Tree(s) to farm",
+	Description = "Select the Trees to farm.",
+	Values = TreeNames,
+	Multi = true,
+	Default = {"Default Tree"},
+})
+
+Main_TreeHarvestPick:OnChanged(function(Value)
+	local values = {}
+	for val, stat in next, Value do
+		if stat then
+			table.insert(values, val)
+		end
+	end
+	ToHarvest = values
+end)
+
+Main:AddToggle("AHarvest", {Title = "Auto Harvest Trees", Default = false })
+
 --------------
 
 -- Gamepasses --
@@ -282,7 +331,10 @@ Items:AddToggle("ACFarm", {Title = "Auto Collect Fruit Farm", Default = true })
 --Items:AddToggle("ACChests", {Title = "Auto Collect Chests (These you already own)", Default = true })
 Items:AddSection("Chests & Mini Chests")
 Items:AddToggle("ACChests", {Title = "Auto Claim Chests", Default = true })
-Items:AddToggle("ACMChests", {Title = "Auto Collect Mini Chests (Auto Collect Drops recommended)", Default = true })
+Items:AddToggle("ACMChests", {Title = "Auto Collect Mini Chests (use Auto Collect Drops)", Default = true })
+
+Items:AddSection("Playtime Rewards")
+Items:AddToggle("ACPRewards", {Title = "Auto Claim Playtime Rewards", Default = true })
 
 --------------
 
@@ -436,6 +488,9 @@ end)
 
 -- Main Controller --
 
+local hassomeaxe = false
+local hassomepickaxe = false
+
 task.spawn(function()
 	while task.wait(.5) do
 		for _, v in pairs(game:GetService("StarterPlayer"):FindFirstChild("StarterPlayerScripts"):FindFirstChild("Client"):FindFirstChild("Controllers"):GetDescendants()) do
@@ -491,7 +546,7 @@ task.spawn(function()
 				if minichestname and minichestid then
 					local minichestpos = minichest:GetPivot().Position
 					local hrppos = myHrp.Position
-					if (minichestpos - hrppos).Magnitude <= 500 then
+					if (minichestpos - hrppos).Magnitude <= 2000 then
 						if not minichest:GetAttribute("isAnimating") then
 							for _, prompt in pairs(minichest:GetDescendants()) do
 								if prompt:IsA("ProximityPrompt") then fireproximityprompt(prompt) end
@@ -501,8 +556,25 @@ task.spawn(function()
 				end
 			end
 		end
+		
+		if Options.ACPRewards.Value then
+			for i = 1, 12 do
+				RewardService:claimDailyReward(i)
+			end
+		end
+		
+		for _, axe in DataController:getData().inventory.exclusive do
+			local v103 = Util.itemUtils.createItemFromData(axe)
+			if v103:getName():lower():find("axe") and not v103:getName():lower():find("pickaxe") then
+				hassomeaxe = true
+			elseif not v103:getName():lower():find("axe") and v103:getName():lower():find("pickaxe") then
+				hassomepickaxe = true
+			end
+		end
 	end
 end)
+
+local treedead = false
 
 task.spawn(function()
 	while task.wait(.1) do
@@ -529,7 +601,14 @@ task.spawn(function()
 
 		if Options.AHubClicker.Value then Click() end
 
-		if Options.AHubRebirth.Value then Rebirth(___AutoRebirthValue) end
+		if Options.AHubRebirth.Value then
+			local currentlyautorebirth = Rebirths[___AutoRebirthValue]
+			local currentlyrebirthquantity = DataController.data.rebirths
+			if (Variables.rebirthPrice + currentlyrebirthquantity.rebirths * Variables.rebirthPriceMultiplier) * currentlyautorebirth + Variables.rebirthPriceMultiplier * (currentlyautorebirth * (currentlyautorebirth - 1) / 2) <= currentlyrebirthquantity.clicks then
+				Rebirth(___AutoRebirthValue)
+				print(("Auto Rebirth: %* for %*"):format(___AutoRebirthValue, math.floor((Variables.rebirthPrice + currentlyrebirthquantity.rebirths * Variables.rebirthPriceMultiplier) * currentlyautorebirth + Variables.rebirthPriceMultiplier * (currentlyautorebirth * (currentlyautorebirth - 1) / 2))))
+			end
+		end
 
 		if Options.ADropsCollect.Value and myHrp then
 			for _, v in pairs(Orbs:GetChildren()) do
@@ -541,6 +620,40 @@ task.spawn(function()
 					end
 					if v:FindFirstChildWhichIsA("BillboardGui") then
 						v:FindFirstChildWhichIsA("BillboardGui").Enabled = false
+					end
+				end
+			end
+		end
+		
+		if Options.AHarvest.Value then
+			for _, v in pairs(CollectionService:GetTagged("Tree")) do
+				local TreeModel = v:FindFirstChildWhichIsA("Model")
+				if TreeModel then
+					local TreeGroupId = TreeModel:GetAttribute("groupId")
+					local TreeId = TreeModel:GetAttribute("treeId")
+
+					if TreeGroupId and TreeId then
+						local billboard = TreeModel:FindFirstChildWhichIsA("BillboardGui", true)
+						if billboard then
+							treedead = billboard.Enabled
+						else
+							treedead = false
+						end
+
+						if not treedead and hassomeaxe and #ToHarvest > 0 then
+							for _, selectedTreeName in pairs(ToHarvest) do
+								local treeConfig = TreeList[selectedTreeName]
+								if treeConfig and treeConfig.groupId == TreeGroupId then
+									local _data = DataController:getData()
+									if _data.trees[TreeGroupId] and _data.trees[TreeGroupId][TreeId] then
+										if _data.AxeEquipped or hassomeaxe then 
+											myHrp.CFrame = TreeModel:GetPivot()
+											TreeService.damage2:Fire(TreeGroupId, TreeId, TreeService:getLumberId())
+										end
+									end
+								end
+							end
+						end
 					end
 				end
 			end
