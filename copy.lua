@@ -327,6 +327,11 @@ local Event_MobFarmingDropdown = Event:AddDropdown("MultiDropdown", {
 	Default = {"All"},
 })
 
+Event:AddParagraph({
+	Title = "Important!",
+	Content = "The attack priority is random, and I don't know if I want to change it. XD\nWell, don't forget to unmark option 'All' if you have selected other Mobs."
+})
+
 Event_MobFarmingDropdown:OnChanged(function(Value)
 	if Value == "All" then
 		Farming = {"All"}
@@ -341,28 +346,88 @@ Event_MobFarmingDropdown:OnChanged(function(Value)
 	end
 end)
 
+FarmPriority = "Strongest"
+
+local Event_Priority = Event:AddDropdown("Dropdown", {
+	Title = "Farm Priority",
+	Description = "The priority rule the Mobs will be killed or damaged",
+	Values = {"Weakest", "Strongest", "Random"},
+	Default = {"Strongest"},
+})
+
+Event_Priority:OnChanged(function(Value)
+	FarmPriority = Value
+end)
+
 Event:AddToggle("AMFarm", {Title = "Auto Farm Selected Mobs", Default = false })
+
+local WhoIsBetterThan = {
+	["Spider"] = "Skeleton",
+	["Skeleton"] = "Magic Bat",
+	["Magic Bat"] = "Witch",
+	["Witch"] = "Magic Golem",
+	["Magic Golem"] = "Haunted Wizard",
+	["Haunted Wizard"] = "Magic Slime",
+	["Magic Slime"] = "Dark Eye",
+	["Dark Eye"] = "Electro Wizard",
+	["Electro Wizard"] = "Dark Wizard",
+	["Dark Wizard"] = "Chaos Wizard",
+	["Chaos Wizard"] = "No one"
+}
+
+local MobStrengthIndex = {}
+local currentMob = "Spider"
+local score = 1
+while currentMob and currentMob ~= "No one" do
+	MobStrengthIndex[currentMob] = score
+	currentMob = WhoIsBetterThan[currentMob]
+	score = score + 1
+end
 
 task.spawn(function()
 	while task.wait() do
 		if Options.AMFarm.Value and #Farming > 0 then 
-			if not table.find(Farming, "All") then
+
+			local TargetMobs = {}
+			if table.find(Farming, "All") then
+				for _, data in pairs(GetMobs()) do
+					table.insert(TargetMobs, data)
+				end
+			else
 				for _, mobClass in pairs(Farming) do
-					local Mobs = GetDungeonMobs(mobClass)
-					for _, mobModel in pairs(Mobs) do
-						if mobModel and mobModel:GetAttribute("mobId") then
-							DamageMob(mobModel:GetAttribute("mobId"))
+					for _, data in pairs(GetMobs()) do
+						if data.name == mobClass then
+							table.insert(TargetMobs, data)
 						end
 					end
 				end
-			else
-				local Mobs = GetDungeonMobs("All")
-				for _, mobModel in pairs(Mobs) do
-					if mobModel and mobModel:GetAttribute("mobId") then
-						DamageMob(mobModel:GetAttribute("mobId"))
-					end
+			end
+
+			if FarmPriority == "Weakest" then
+				table.sort(TargetMobs, function(a, b)
+					local powerA = MobStrengthIndex[a.name] or 0
+					local powerB = MobStrengthIndex[b.name] or 0
+					return powerA < powerB
+				end)
+			elseif FarmPriority == "Strongest" then
+				table.sort(TargetMobs, function(a, b)
+					local powerA = MobStrengthIndex[a.name] or 0
+					local powerB = MobStrengthIndex[b.name] or 0
+					return powerA > powerB
+				end)
+			elseif FarmPriority == "Random" then
+				for i = #TargetMobs, 2, -1 do
+					local j = math.random(i)
+					TargetMobs[i], TargetMobs[j] = TargetMobs[j], TargetMobs[i]
 				end
 			end
+
+			for _, mobData in pairs(TargetMobs) do
+				if mobData.model and mobData.id then
+					DamageMob(mobData.id)
+				end
+			end
+
 		end
 	end
 end)
