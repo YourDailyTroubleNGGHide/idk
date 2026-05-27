@@ -87,6 +87,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local SoundService = game:GetService("SoundService")
 local UserInputService = game:GetService("UserInputService")
 local Workspace = game:GetService("Workspace")
+local CollectionService = game:GetService("CollectionService")
 
 -- Local Player
 local plr = Players.LocalPlayer
@@ -279,7 +280,8 @@ Items:AddToggle("ACFarm", {Title = "Auto Collect Fruit Farm", Default = true })
 
 --Items:AddSection("Chests & Mini Chests")
 --Items:AddToggle("ACChests", {Title = "Auto Collect Chests (These you already own)", Default = true })
-Items:AddSection("Mini Chests")
+Items:AddSection("Chests & Mini Chests")
+Items:AddToggle("ACChests", {Title = "Auto Claim Chests", Default = true })
 Items:AddToggle("ACMChests", {Title = "Auto Collect Mini Chests (Auto Collect Drops recommended)", Default = true })
 
 --------------
@@ -391,6 +393,8 @@ task.spawn(function()
 		DataController.data.passes.ultraLuck = Options.GULuck.Value
 
 		EggController._cachedIsInGroup = Options.AHatch.Value
+		
+		local myHrp = GetHRP()
 
 		if Options.ACFarm.Value then
 			for i, v in pairs(Maps:GetDescendants()) do
@@ -403,7 +407,6 @@ task.spawn(function()
 			end
 		end
 		
---[[
 		if Options.ACChests.Value then
 			for _, machinefolder : Folder in pairs(Maps:GetDescendants()) do
 				if machinefolder:IsA("Folder") and machinefolder.Name == "Machines" then
@@ -415,14 +418,19 @@ task.spawn(function()
 				end
 			end
 		end
-]]
 
 		if Options.ACMChests.Value and fireproximityprompt then
-			for _, minichestfolder : Folder in pairs(Maps:GetDescendants()) do
-				if minichestfolder:IsA("Folder") and minichestfolder.Name == "MiniChests" then
-					for _, minichest in pairs(minichestfolder:GetChildren()) do
-						if minichest:IsA("Model") and (minichest:GetAttribute("miniChestId") and minichest:GetAttribute("miniChestName")) then
-							fireproximityprompt(minichest:FindFirstChild("Touch"):FindFirstChild("ProximityPrompt"))
+			for _, minichest in CollectionService:GetTagged("MiniChest") do
+				local minichestname = minichest:GetAttribute("miniChestName")
+				local minichestid = minichest:GetAttribute("miniChestId")
+				if minichestname and minichestid then
+					local minichestpos = minichest:GetPivot().Position
+					local hrppos = myHrp.Position
+					if (minichestpos - hrppos).Magnitude <= 500 then
+						if not minichest:GetAttribute("isAnimating") then
+							for _, prompt in pairs(minichest:GetDescendants()) do
+								if prompt:IsA("ProximityPrompt") then fireproximityprompt(prompt) end
+							end
 						end
 					end
 				end
