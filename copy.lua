@@ -615,11 +615,11 @@ task.spawn(function()
 
 		if Options.AHubRebirth.Value then
 			local currentlyautorebirth = Rebirths[___AutoRebirthValue]
-			local currentlyrebirthquantity = DataController:getData().rebirths
-			print(currentlyautorebirth, currentlyrebirthquantity, Variables.rebirthPrice, Variables.rebirthPriceMultiplier, currentlyrebirthquantity.clicks)
-			if (Variables.rebirthPrice + currentlyrebirthquantity.rebirths * Variables.rebirthPriceMultiplier) * currentlyautorebirth + Variables.rebirthPriceMultiplier * (currentlyautorebirth * (currentlyautorebirth - 1) / 2) <= currentlyrebirthquantity.clicks then
+			local _data = DataController:getData()
+			print(currentlyautorebirth, _data.rebirths, Variables.rebirthPrice, Variables.rebirthPriceMultiplier, _data.clicks)
+			if (Variables.rebirthPrice + _data.rebirths * Variables.rebirthPriceMultiplier) * currentlyautorebirth + Variables.rebirthPriceMultiplier * (currentlyautorebirth * (currentlyautorebirth - 1) / 2) <= _data.clicks then
 				Rebirth(___AutoRebirthValue)
-				print(("Auto Rebirth: %* for %*"):format(___AutoRebirthValue, math.floor((Variables.rebirthPrice + currentlyrebirthquantity.rebirths * Variables.rebirthPriceMultiplier) * currentlyautorebirth + Variables.rebirthPriceMultiplier * (currentlyautorebirth * (currentlyautorebirth - 1) / 2))))
+				print(("Auto Rebirth: %* for %*"):format(___AutoRebirthValue, math.floor((Variables.rebirthPrice + _data.rebirths * Variables.rebirthPriceMultiplier) * currentlyautorebirth + Variables.rebirthPriceMultiplier * (currentlyautorebirth * (currentlyautorebirth - 1) / 2))))
 			end
 		end
 
