@@ -273,8 +273,8 @@ for name, _ in pairs(TreeList) do
 end
 
 local Main_TreeHarvestPick = Main:AddDropdown("MultiDropdown", {
-	Title = "Select Tree(s) to farm",
-	Description = "Select the Trees to farm.",
+	Title = "Select Tree Types",
+	Description = "Select the Tree(s) to farm.",
 	Values = TreeNames,
 	Multi = true,
 	Default = {"Default Tree"},
@@ -629,10 +629,12 @@ task.spawn(function()
 			for _, v in pairs(CollectionService:GetTagged("Tree")) do
 				local TreeModel = v:FindFirstChildWhichIsA("Model")
 				if TreeModel then
+					print("found tree using GetTagged")
 					local TreeGroupId = TreeModel:GetAttribute("groupId")
 					local TreeId = TreeModel:GetAttribute("treeId")
 
 					if TreeGroupId and TreeId then
+						print("tree has groupId and treeId")
 						local billboard = TreeModel:FindFirstChildWhichIsA("BillboardGui", true)
 						if billboard then
 							treedead = billboard.Enabled
@@ -641,12 +643,16 @@ task.spawn(function()
 						end
 
 						if not treedead and hassomeaxe and #ToHarvest > 0 then
+							print("perfect statuses for tree")
 							for _, selectedTreeName in pairs(ToHarvest) do
 								local treeConfig = TreeList[selectedTreeName]
+								print("checking selected tree")
 								if treeConfig and treeConfig.groupId == TreeGroupId then
+									print("has tree")
 									local _data = DataController:getData()
 									if _data.trees[TreeGroupId] and _data.trees[TreeGroupId][TreeId] then
 										if _data.AxeEquipped or hassomeaxe then 
+											print("has some axe")
 											myHrp.CFrame = TreeModel:GetPivot()
 											TreeService.damage2:Fire(TreeGroupId, TreeId, TreeService:getLumberId())
 										end
