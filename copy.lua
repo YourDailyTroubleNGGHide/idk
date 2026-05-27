@@ -96,12 +96,12 @@ local hum = char:FindFirstChild("Humanoid")
 
 -- Inside Game Locals
 -- Workspace
-local Debris = Workspace:WaitForChild("Debris") -- Folder Debris in Workspace
-local Orbs = Debris:WaitForChild("Orbs") -- Child of Folder Debris
-local Game = Workspace:WaitForChild("Game") -- Folder Game in Workspace
-local Maps = Game:WaitForChild("Maps") -- Folder Maps in Folder Game
+local Debris = Workspace:FindFirstChild("Debris") -- workspace.Debris
+local Orbs = Debris:FindFirstChild("Orbs") -- Debris.Orbs
+local Game = Workspace:FindFirstChild("Game") -- workspace.Game
+local Maps = Game:FindFirstChild("Maps") -- Game.Maps
 -- Knit
-local Knit = require(ReplicatedStorage:WaitForChild("Packages"):WaitForChild("Knit"))
+local Knit = require(ReplicatedStorage:WaitForChild("Packages"):FindFirstChild("Knit"))
 -- Controllers
 local UIController = require(plr.PlayerScripts.Client.Controllers.UIController)
 local Confetti = require(plr.PlayerScripts.Client.Controllers.UIController.FX.Confetti)
@@ -317,7 +317,7 @@ end
 
 local Farming = {"All"}
 
-local Event_MobFarmingDropdown = Main:AddDropdown("MultiDropdown", {
+local Event_MobFarmingDropdown = Event:AddDropdown("MultiDropdown", {
 	Title = "Auto Farm Mobs",
 	Description = "Select the Mobs to farm.",
 	Values = MobClasses,
@@ -393,17 +393,11 @@ task.spawn(function()
 		EggController._cachedIsInGroup = Options.AHatch.Value
 
 		if Options.ACFarm.Value then
-			local FarmMap = Maps:FindFirstChild("Farm")
-			if FarmMap then
-				local Farms = FarmMap:FindFirstChild("Farms")
-				if Farms then
-					for i, v in pairs(Farms:GetChildren()) do
-						if v:IsA("Model") and v:GetAttribute("farmId") then
-							local timeuntilcancollect = FarmController:getTimeLeft(v:GetAttribute("farmId"))
-							if timeuntilcancollect <= 0 then
-								FarmService:claim(v:GetAttribute("farmId"))
-							end
-						end
+			for i, v in pairs(Maps:GetDescendants()) do
+				if v:IsA("Model") and v.Parent.Name == "Farms" and v:GetAttribute("farmId") then
+					local timeuntilcancollect = FarmController:getTimeLeft(v:GetAttribute("farmId"))
+					if timeuntilcancollect <= 0 then
+						FarmService:claim(v:GetAttribute("farmId"))
 					end
 				end
 			end
