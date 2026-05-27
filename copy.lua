@@ -120,7 +120,7 @@ local RewardService = Knit.GetService("RewardService")
 local TreeService = Knit.GetService("TreeService")
 -- Modules
 local Variables = require(ReplicatedStorage:WaitForChild("Shared"):FindFirstChild("Variables"))
-local Rebirths = require(ReplicatedStorage:WaitForChild("Shared"):FindFirstChild("Rebirths"))
+local Rebirths = require(ReplicatedStorage:WaitForChild("Shared"):FindFirstChild("List"):FindFirstChild("Rebirths"))
 local Util = require(ReplicatedStorage:WaitForChild("Shared"):FindFirstChild("Util"))
 -----------------
 
