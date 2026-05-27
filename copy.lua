@@ -329,7 +329,7 @@ local Event_MobFarmingDropdown = Event:AddDropdown("MultiDropdown", {
 
 Event:AddParagraph({
 	Title = "Important!",
-	Content = "The attack priority is random, and I don't know if I want to change it. XD\nWell, don't forget to unmark option 'All' if you have selected other Mobs."
+	Content = "Don't forget to unmark option 'All' if you have selected other Mobs."
 })
 
 Event_MobFarmingDropdown:OnChanged(function(Value)
@@ -352,7 +352,7 @@ local Event_Priority = Event:AddDropdown("Dropdown", {
 	Title = "Farm Priority",
 	Description = "The priority rule the Mobs will be killed or damaged",
 	Values = {"Weakest", "Strongest", "Random"},
-	Default = {"Strongest"},
+	Default = "Strongest",
 })
 
 Event_Priority:OnChanged(function(Value)
