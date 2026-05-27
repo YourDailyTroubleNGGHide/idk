@@ -120,8 +120,9 @@ local RewardService = Knit.GetService("RewardService")
 local TreeService = Knit.GetService("TreeService")
 -- Modules
 local Variables = require(ReplicatedStorage:WaitForChild("Shared"):FindFirstChild("Variables"))
-local Rebirths = require(ReplicatedStorage:WaitForChild("Shared"):FindFirstChild("List"):FindFirstChild("Rebirths"))
 local Util = require(ReplicatedStorage:WaitForChild("Shared"):FindFirstChild("Util"))
+local Rebirths = require(ReplicatedStorage:WaitForChild("Shared"):FindFirstChild("List"):FindFirstChild("Rebirths"))
+local Achievements = require(ReplicatedStorage:WaitForChild("Shared"):FindFirstChild("List"):FindFirstChild("Achievements"))
 -----------------
 
 local __RebirthsValues = {
@@ -333,8 +334,10 @@ Items:AddSection("Chests & Mini Chests")
 Items:AddToggle("ACChests", {Title = "Auto Claim Chests", Default = true })
 Items:AddToggle("ACMChests", {Title = "Auto Collect Mini Chests (use Auto Collect Drops)", Default = true })
 
-Items:AddSection("Playtime Rewards")
+Items:AddSection("Rewards")
 Items:AddToggle("ACPRewards", {Title = "Auto Claim Playtime Rewards", Default = true })
+Items:AddToggle("ACDaily", {Title = "Auto Claim Daily Reward", Default = true })
+Items:AddToggle("ACAchievements", {Title = "Auto Claim Achievements Rewards", Default = true })
 
 --------------
 
@@ -559,7 +562,18 @@ task.spawn(function()
 		
 		if Options.ACPRewards.Value then
 			for i = 1, 12 do
-				RewardService:claimDailyReward(i)
+				RewardService:claimPlaytimeReward(i)
+			end
+		end
+		
+		if Options.ACDaily.Value then
+			RewardService:claimDailyReward()
+		end
+		
+		if Options.ACAchievements.Value then
+			for achIndex, achName in Achievements do
+				RewardService:claimAchievement(achIndex)
+				print("claiming achievement", achName)
 			end
 		end
 		
