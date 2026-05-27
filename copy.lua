@@ -263,20 +263,17 @@ end
 
 local ___AutoRebirthValue = 1
 
-local RebirthOptsDropdown = Main:AddDropdown("Dropdown", {
-	Title = "Auto Rebirth Quantity",
-	Description = "The amount of Rebirths you want to do with the Auto Rebirth.",
-	Values = dropdownValues,
-	Multi = false,
-	Default = 1,
-})
-
-RebirthOptsDropdown:OnChanged(function(Value)
-	if Value then
-		local id = tonumber(string.split(Value, " : ")[1])
-		___AutoRebirthValue = id
+Main:AddDropdown({
+	Name = "Auto Rebirth Quantity",
+	Options = dropdownValues,
+	Default = dropdownValues[1] or "1 : 1",
+	Callback = function(Value)
+		if Value then
+			local id = tonumber(string.split(Value, " : ")[1])
+			___AutoRebirthValue = id
+		end
 	end
-end)
+})
 
 Main:AddToggle({
 	Name = "Auto Rebirth [Hub Auto Rebirth]",
