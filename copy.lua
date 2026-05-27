@@ -571,7 +571,6 @@ task.spawn(function()
 		if Options.ACAchievements.Value then
 			for achIndex, achName in Achievements do
 				RewardService:claimAchievement(achIndex)
-				print("claiming achievement", achName)
 			end
 		end
 		
