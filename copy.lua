@@ -393,9 +393,9 @@ task.spawn(function()
 		EggController._cachedIsInGroup = Options.AHatch.Value
 
 		if Options.ACFarm.Value then
-			local FarmMap = Maps:WaitForChild("Farm")
+			local FarmMap = Maps:FindFirstChild("Farm")
 			if FarmMap then
-				local Farms = FarmMap:WaitForChild("Farms")
+				local Farms = FarmMap:FindFirstChild("Farms")
 				if Farms then
 					for i, v in pairs(Farms:GetChildren()) do
 						if v:IsA("Model") and v:GetAttribute("farmId") then
