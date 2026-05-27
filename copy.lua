@@ -1,4 +1,6 @@
-local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Noob-With-Z/Libraries/main/BetterOrion"))()
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 
 local printtext = "NoobZ Hub : Rebirth Champions Ultimate"
 local ver = "0.1"
@@ -45,64 +47,37 @@ end
 
 print([[
 
-            888b    888                    888     8888888888P 
-            8888b   888                    888           d88P  
-            88888b  888                    888          d88P   
-            888Y88b 888  .d88b.   .d88b.  88888b.      d88P    
-            888 Y88b888 d88""88b d88""88b 888 "88b    d88P     
-            888  Y88888 888  888 888  888 888  888   d88P      
-            888   Y8888 Y88..88P Y88..88P 888 d88P  d88P       
-            888    Y888  "Y88P"   "Y88P"  88888P"  d8888888888 
+            888b    888                   888     8888888888P 
+            8888b   888                   888           d88P  
+            88888b  888                   888          d88P   
+            888Y88b 888  .d88b.   .d88b.  88888b.     d88P    
+            888 Y88b888 d88""88b d88""88b 888 "88b   d88P     
+            888  Y88888 888  888 888  888 888  888  d88P      
+            888   Y8888 Y88..88P Y88..88P 888 d88P d88P       
+            888    Y888  "Y88P"   "Y88P"  88888P" d8888888888 
 
 ]])
 print(printtext)
 print("Version: "..ver)
 
-local Window = OrionLib:MakeWindow({
-	IntroText = "I'm addicted XD",
-	IntroIcon = "rbxassetid://78486456652427",
-	Name = "NoobZ | Rebirth Champions Ultimate",
-	IntroToggleIcon = "rbxassetid://128786630893208",
-	HidePremium = false,
-	SaveConfig = false,
-	IntroEnabled = true,
-	ConfigFolder = "NoobZ",
+local Window = Fluent:CreateWindow({
+	Title = "RCU [WIP]",
+	SubTitle = "by NoobZ",
+	TabWidth = 100,
+	Size = UDim2.fromOffset(500, 320),
+	Acrylic = false,
+	Theme = "Darker",
+	MinimizeKey = Enum.KeyCode.H
 })
 
-local Options = {
-	["ADropsCollect"] = { Value = true },
-	["AHubClicker"]   = { Value = false },
-	["AHubRebirth"]   = { Value = false },
-	["ATutorial"]     = { Value = false },
-
-	["ACClaim"]       = { Value = false },
-	["GAClicker"]     = { Value = false },
-	["GARebirth"]     = { Value = false },
-	["GFEggs"]        = { Value = false },
-	["GSHunter"]      = { Value = false },
-	["GShiHunter"]    = { Value = false },
-	["GVip"]          = { Value = false },
-	["GIFarmer"]      = { Value = false },
-	["GMFLuck"]       = { Value = false },
-	["GMLuck"]        = { Value = false },
-	["GULuck"]        = { Value = false },
-	["AHatch"]        = { Value = false },
-
-	["AGStars"]       = { Value = true },
-	["AOSupply"]      = { Value = false },
-	["ACFarm"]        = { Value = true },
-	["ACChests"]      = { Value = true },
-	["ACMChests"]     = { Value = true },
-
-	["AMFarm"]        = { Value = false }
-}
+local Options = Fluent.Options
 
 -- Tabs --
-local Main = Window:MakeTab({ Name = "Main", Icon = "home" })
-local Items = Window:MakeTab({ Name = "Items", Icon = "hammer"})
-local Gamepasses = Window:MakeTab({ Name = "Gamepasses", Icon = "gem"})
-local Event = Window:MakeTab({ Name = "Event", Icon = "calendar-check-2"})
-local Settings = Window:MakeTab({ Name = "Settings", Icon = "settings"})
+local Main = Window:AddTab({ Title = "Main", Icon = "home"})
+local Items = Window:AddTab({ Title = "Items", Icon = "hammer"})
+local Gamepasses = Window:AddTab({ Title = "Gamepasses", Icon = "gem"})
+local Event = Window:AddTab({ Title = "Event", Icon = "calendar-check-2"})
+local Settings = Window:AddTab({ Title = "Settings", Icon = "settings"})
 ----------
 
 -- Main Locals --
@@ -225,36 +200,23 @@ end
 
 if specialdate and specialdate ~= "None" then
 	if specialdate == "New Year" then
-		Main:AddSection({Name = "🎉 Happy New Year! 🎉"})
+		Main:AddSection("🎉 Happy New Year! 🎉")
 	elseif specialdate == "Easter" then
-		Main:AddSection({Name = "🥚 Happy Easter! 🥚"})
+		Main:AddSection("🥚 Happy Easter! 🥚")
 	elseif specialdate == "Christmas" then
-		Main:AddSection({Name = "🎄 Merry Christmas! 🎄"})
+		Main:AddSection("🎄 Merry Christmas! 🎄")
 	elseif specialdate == "Halloween" then
-		Main:AddSection({Name = "🎃 Happy Halloween! 🎃"})
+		Main:AddSection("🎃 Happy Halloween! 🎃")
 	elseif specialdate == "April Fools" then
-		Main:AddSection({Name = "This isn't Roblox anymore, welcome to Minecraft."})
-		Main:AddSection({Name = "Nevermind, who cares about that? Just broke this shit."})
+		Main:AddSection("This isn't Roblox anymore, welcome to Minecraft.")
+		Main:AddSection("Nevermind, who cares about that? Just broke this shit.")
 	end
 end
 
-Main:AddSection({Name = "Main"})
+Main:AddSection("Main")
 
-Main:AddToggle({
-	Name = "Auto Collect Drops",
-	Default = Options.ADropsCollect.Value,
-	Callback = function(Toggled)
-		Options.ADropsCollect.Value = Toggled
-	end
-})
-
-Main:AddToggle({
-	Name = "Auto Clicker [Hub Auto Clicker]",
-	Default = Options.AHubClicker.Value,
-	Callback = function(Toggled)
-		Options.AHubClicker.Value = Toggled
-	end
-})
+Main:AddToggle("ADropsCollect", {Title = "Auto Collect Drops", Default = true })
+Main:AddToggle("AHubClicker", {Title = "Auto Clicker [Hub Auto Clicker]", Default = false })
 
 local dropdownValues = {}
 for i, v in ipairs(__RebirthsValues.__Normal) do
@@ -263,195 +225,70 @@ end
 
 local ___AutoRebirthValue = 1
 
-Main:AddDropdown({
-	Name = "Auto Rebirth Quantity",
-	Options = dropdownValues,
-	Default = dropdownValues[1] or "1 : 1",
-	Callback = function(Value)
-		if Value then
-			local id = tonumber(string.split(Value, " : ")[1])
-			___AutoRebirthValue = id
-		end
-	end
+local RebirthOptsDropdown = Main:AddDropdown("Dropdown", {
+	Title = "Auto Rebirth Quantity",
+	Description = "The amount of Rebirths you want to do with the Auto Rebirth.",
+	Values = dropdownValues,
+	Multi = false,
+	Default = 1,
 })
 
-Main:AddToggle({
-	Name = "Auto Rebirth [Hub Auto Rebirth]",
-	Default = Options.AHubRebirth.Value,
-	Callback = function(Toggled)
-		Options.AHubRebirth.Value = Toggled
+RebirthOptsDropdown:OnChanged(function(Value)
+	if Value then
+		local id = tonumber(string.split(Value, " : ")[1])
+		___AutoRebirthValue = id
 	end
-})
+end)
 
-Main:AddToggle({
-	Name = "Auto Tutorial / Skip Tutorial",
-	Default = Options.ATutorial.Value,
-	Callback = function(Toggled)
-		Options.ATutorial.Value = Toggled
-	end
-})
+Main:AddToggle("AHubRebirth", {Title = "Auto Rebirth [Hub Auto Rebirth]", Default = false })
+Main:AddToggle("ATutorial", {Title = "Auto Tutorial / Skip Tutorial", Default = false })
 
 --------------
 
 -- Gamepasses --
 
-Gamepasses:AddSection({Name = "Gamepasses (does NOT save to real Data)"})
+Gamepasses:AddSection("Gamepasses (does NOT save to real Data)")
 
-Gamepasses:AddToggle({
-	Name = "Auto Claim Chests Gamepass",
-	Default = Options.ACClaim.Value,
-	Callback = function(Toggled)
-		Options.ACClaim.Value = Toggled
-	end
-})
+Gamepasses:AddToggle("ACClaim", {Title = "Auto Claim Chests Gamepass", Default = false })
+Gamepasses:AddToggle("GAClicker", {Title = "Auto Clicker Gamepass", Default = false })
+Gamepasses:AddToggle("GARebirth", {Title = "Auto Rebirth Gamepass", Default = false })
+Gamepasses:AddToggle("GFEggs", {Title = "Faster Eggs Open Gamepass", Default = false })
+Gamepasses:AddToggle("GSHunter", {Title = "Secret Hunter Gamepass", Default = false })
+Gamepasses:AddToggle("GShiHunter", {Title = "Shiny Hunter Gamepass", Default = false })
+Gamepasses:AddToggle("GVip", {Title = "VIP Gamepass", Default = false })
+Gamepasses:AddToggle("GIFarmer", {Title = "Insane Farmer Gamepass", Default = false })
+Gamepasses:AddToggle("GMFLuck", {Title = "Mega Fragments Luck Gamepass", Default = false })
+Gamepasses:AddToggle("GMLuck", {Title = "Mega Luck Gamepass", Default = false })
+Gamepasses:AddToggle("GULuck", {Title = "Ultra Luck Gamepass", Default = false })
 
-Gamepasses:AddToggle({
-	Name = "Auto Clicker Gamepass",
-	Default = Options.GAClicker.Value,
-	Callback = function(Toggled)
-		Options.GAClicker.Value = Toggled
-	end
-})
+Gamepasses:AddSection("Miscellaneous")
 
-Gamepasses:AddToggle({
-	Name = "Auto Rebirth Gamepass",
-	Default = Options.GARebirth.Value,
-	Callback = function(Toggled)
-		Options.GARebirth.Value = Toggled
-	end
-})
-
-Gamepasses:AddToggle({
-	Name = "Faster Eggs Open Gamepass",
-	Default = Options.GFEggs.Value,
-	Callback = function(Toggled)
-		Options.GFEggs.Value = Toggled
-	end
-})
-
-Gamepasses:AddToggle({
-	Name = "Secret Hunter Gamepass",
-	Default = Options.GSHunter.Value,
-	Callback = function(Toggled)
-		Options.GSHunter.Value = Toggled
-	end
-})
-
-Gamepasses:AddToggle({
-	Name = "Shiny Hunter Gamepass",
-	Default = Options.GShiHunter.Value,
-	Callback = function(Toggled)
-		Options.GShiHunter.Value = Toggled
-	end
-})
-
-Gamepasses:AddToggle({
-	Name = "VIP Gamepass",
-	Default = Options.GVip.Value,
-	Callback = function(Toggled)
-		Options.GVip.Value = Toggled
-	end
-})
-
-Gamepasses:AddToggle({
-	Name = "Insane Farmer Gamepass",
-	Default = Options.GIFarmer.Value,
-	Callback = function(Toggled)
-		Options.GIFarmer.Value = Toggled
-	end
-})
-
-Gamepasses:AddToggle({
-	Name = "Mega Fragments Luck Gamepass",
-	Default = Options.GMFLuck.Value,
-	Callback = function(Toggled)
-		Options.GMFLuck.Value = Toggled
-	end
-})
-
-Gamepasses:AddToggle({
-	Name = "Mega Luck Gamepass",
-	Default = Options.GMLuck.Value,
-	Callback = function(Toggled)
-		Options.GMLuck.Value = Toggled
-	end
-})
-
-Gamepasses:AddToggle({
-	Name = "Ultra Luck Gamepass",
-	Default = Options.GULuck.Value,
-	Callback = function(Toggled)
-		Options.GULuck.Value = Toggled
-	end
-})
-
-Gamepasses:AddSection({Name = "Miscellaneous"})
-
-Gamepasses:AddToggle({
-	Name = "Enable Auto Hatch (If not a Group Member)",
-	Default = Options.AHatch.Value,
-	Callback = function(Toggled)
-		Options.AHatch.Value = Toggled
-	end
-})
+Gamepasses:AddToggle("AHatch", {Title = "Enable Auto Hatch (If not a Group Member)", Default = false })
 
 ---------------
 
 -- Items Tab --
 
-Items:AddSection({Name = "Falling Stars [Server Event]"})
+Items:AddSection("Falling Stars [Server Event]")
+Items:AddToggle("AGStars", {Title = "Auto Collect Stars", Default = true })
 
-Items:AddToggle({
-	Name = "Auto Collect Stars",
-	Default = Options.AGStars.Value,
-	Callback = function(Toggled)
-		Options.AGStars.Value = Toggled
-	end
-})
+Items:AddSection("Suply Drop [Global Event]")
+Items:AddToggle("AOSupply", {Title = "Auto Open Supply Drops", Default = false })
 
-Items:AddSection({Name = "Suply Drop [Global Event]"})
+Items:AddSection("Fruit Farm")
+Items:AddToggle("ACFarm", {Title = "Auto Collect Fruit Farm", Default = true })
 
-Items:AddToggle({
-	Name = "Auto Open Supply Drops",
-	Default = Options.AOSupply.Value,
-	Callback = function(Toggled)
-		Options.AOSupply.Value = Toggled
-	end
-})
-
-Items:AddSection({Name = "Fruit Farm"})
-
-Items:AddToggle({
-	Name = "Auto Collect Fruit Farm",
-	Default = Options.ACFarm.Value,
-	Callback = function(Toggled)
-		Options.ACFarm.Value = Toggled
-	end
-})
-
-Items:AddSection({Name = "Chests & Mini Chests"})
-
-Items:AddToggle({
-	Name = "Auto Claim Chests",
-	Default = Options.ACChests.Value,
-	Callback = function(Toggled)
-		Options.ACChests.Value = Toggled
-	end
-})
-
-Items:AddToggle({
-	Name = "Auto Collect Mini Chests (Auto Collect Drops recommended)",
-	Default = Options.ACMChests.Value,
-	Callback = function(Toggled)
-		Options.ACMChests.Value = Toggled
-	end
-})
+--Items:AddSection("Chests & Mini Chests")
+--Items:AddToggle("ACChests", {Title = "Auto Collect Chests (These you already own)", Default = true })
+Items:AddSection("Chests & Mini Chests")
+Items:AddToggle("ACChests", {Title = "Auto Claim Chests", Default = true })
+Items:AddToggle("ACMChests", {Title = "Auto Collect Mini Chests (Auto Collect Drops recommended)", Default = true })
 
 --------------
 
 -- Events --
 
-Event:AddSection({Name = "On-going Event Now: ⚔️Magic Tower⚔️"})
+Event:AddSection("On-going Event Now: ⚔️Magic Tower⚔️")
 local MagicTowerService = Knit.GetService("MagicTowerService")
 
 local function DamageMob(MobId)
@@ -482,32 +319,29 @@ end
 
 local Farming = {"All"}
 
-Event:AddMultiDropdown({
-	Name = "Auto Farm Mobs",
-	Options = MobClasses,
+local Event_MobFarmingDropdown = Event:AddDropdown("MultiDropdown", {
+	Title = "Auto Farm Mobs",
+	Description = "Select the Mobs to farm.",
+	Values = MobClasses,
+	Multi = true,
 	Default = {"All"},
-	Callback = function(Value)
-		if Value["All"] then 
-			Farming = {"All"}
-		else
-			local values = {}
-			for val, stat in next, Value do
-				if stat then
-					table.insert(values, val)
-				end
-			end
-			Farming = values
-		end
-	end,
 })
 
-Event:AddToggle({
-	Name = "Auto Farm Selected Mobs",
-	Default = Options.AMFarm.Value,
-	Callback = function(Toggled)
-		Options.AMFarm.Value = Toggled
+Event_MobFarmingDropdown:OnChanged(function(Value)
+	if Value == "All" then
+		Farming = {"All"}
+	else
+		local values = {}
+		for val, stat in next, Value do
+			if stat then
+				table.insert(values, val)
+			end
+		end
+		Farming = values
 	end
-})
+end)
+
+Event:AddToggle("AMFarm", {Title = "Auto Farm Selected Mobs", Default = false })
 
 task.spawn(function()
 	while task.wait() do
@@ -559,7 +393,7 @@ task.spawn(function()
 		DataController.data.passes.ultraLuck = Options.GULuck.Value
 
 		EggController._cachedIsInGroup = Options.AHatch.Value
-
+		
 		local myHrp = GetHRP()
 
 		if Options.ACFarm.Value then
@@ -572,7 +406,7 @@ task.spawn(function()
 				end
 			end
 		end
-
+		
 		if Options.ACChests.Value then
 			for _, machinefolder : Folder in pairs(Maps:GetDescendants()) do
 				if machinefolder:IsA("Folder") and machinefolder.Name == "Machines" then
@@ -651,13 +485,13 @@ end)
 
 -- Miscellaneous --
 do
-	if OrionLib then
-		OrionLib:MakeNotification({
-			Name = "Warning",
-			Content = "This scripts is actually W.I.P, any issues is completely normal.",
-			Time = 8
-		})
-	end
+	Fluent:Notify({
+		Title = "Warning",
+		Content = "This scripts is actually W.I.P, any issues is completely normal.",
+		SubContent = "(Yes any error is my bad)",
+		Duration = 8
+	})
+
 
 	local __ThatShitAndNewCreenGuiLILBoy = Instance.new("Folder", SoundService)
 	__ThatShitAndNewCreenGuiLILBoy.Name = "NoobZ Assets"
