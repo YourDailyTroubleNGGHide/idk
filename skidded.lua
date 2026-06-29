@@ -1878,7 +1878,6 @@ MastTab:AddSection({
 	Name = "Eggler",
 })
 
-local _general_iamegg = false
 local _eggler_uneggwithviolence = false
 
 MastTab:AddToggle({
@@ -1902,13 +1901,11 @@ MastTab:AddToggle({
 				local char = plr.Character
 				local charRoot = char:FindFirstChild("HumanoidRootPart")
 				
-				_general_iamegg = char:GetAttribute("isEgg")
-				
-				if not _general_iamegg then
+				if char:GetAttribute("isEgg") == false or char:GetAttribute("isEgg") == nil then
 					TeleportToCFrame(17898, 71, -2650)
 					task.wait(1)
 					for i, v in ipairs(Players:GetPlayers()) do
-						if InArena(v) and v.Character and not v.Character:GetAttribute("zzz") then
+						if InArena(v) and v.Character and v.Character:GetAttribute("zzz") == nil then
 							local enemy = v.Character
 							local enemyRoot = enemy:FindFirstChild("HumanoidRootPart")
 							if charRoot and enemyRoot then
@@ -1921,11 +1918,11 @@ MastTab:AddToggle({
 								
 								if _eggler_uneggwithviolence then
 									task.wait(.5)
-									if char:GetAttribute("isEgg") then
+									if char:GetAttribute("isEgg") == true then
 										UseAbility(Abilities.Eggler["I Am Egg"], {})
 										
 										for _, v2 in ipairs(Players:GetPlayers()) do
-											if InArena(v2) and v2.Character and not v2.Character:GetAttribute("zzz") then
+											if InArena(v2) and v2.Character and v2.Character:GetAttribute("zzz") == nil then
 												local enemy = v2.Character
 												local enemyRoot = enemy:FindFirstChild("HumanoidRootPart")
 												if enemyRoot then
