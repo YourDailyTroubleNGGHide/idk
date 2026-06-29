@@ -1739,7 +1739,7 @@ MastTab:AddSection({
 	Name = "Fort",
 })
 
-MastTab:AddButton({
+MastTab:AddToggle({
 	Name = "Auto place walls",
 	Callback = function(Value)
 		
@@ -1750,7 +1750,7 @@ MastTab:AddSection({
 	Name = "Engineer",
 })
 
-MastTab:AddButton({
+MastTab:AddToggle({
 	Name = "Auto place sentries",
 	Callback = function(Value)
 		
@@ -1763,7 +1763,7 @@ MastTab:AddSection({
 
 local nil1 = false
 
-MastTab:AddButton({
+MastTab:AddToggle({
 	Name = "Auto teleport farming",
 	Callback = function(Value)
 		
@@ -1773,7 +1773,7 @@ MastTab:AddButton({
 	end,
 })
 
-MastTab:AddButton({
+MastTab:AddToggle({
 	Name = "Auto ambush people while teleporting",
 	Color = Color3.fromRGB(0, 255, 0),
 	Default = false,
@@ -1955,7 +1955,7 @@ MastTab:AddToggle({
 	end,
 })
 
-MastTab:AddButton({
+MastTab:AddToggle({
 	Name = "Unegg with violence",
 	Color = Color3.fromRGB(0, 255, 0),
 	Default = false,
@@ -2250,6 +2250,6 @@ local TeleportCheck = false
 plr.OnTeleport:Connect(function(State)
 	if (not TeleportCheck) and queueteleport and State ~= Enum.TeleportState.Failed then
 		TeleportCheck = true
-		queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/YourDailyTroubleNGGHide/idk/refs/heads/main/skidded'))()")
+		queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/YourDailyTroubleNGGHide/idk/refs/heads/main/skidded.lua'))()")
 	end
 end)
