@@ -2250,6 +2250,6 @@ local TeleportCheck = false
 plr.OnTeleport:Connect(function(State)
 	if (not TeleportCheck) and queueteleport and State ~= Enum.TeleportState.Failed then
 		TeleportCheck = true
-		queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/Noob-With-Z/Games/refs/heads/main/SlapBattles/Main.lua'))()")
+		queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/YourDailyTroubleNGGHide/idk/refs/heads/main/skidded'))()")
 	end
 end)
